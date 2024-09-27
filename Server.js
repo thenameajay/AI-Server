@@ -4,7 +4,8 @@ const PORT = 8123
 require("dotenv").config()
 
 const cors = require("cors")
-app.use(cors({origin:'http://localhost:3000'}))
+app.use(cors({origin:'https://alicetoyou.vercel.app'}))
+// app.use(cors({origin:'http://localhost:3000'}))
 
 app.use(express.json())
 
