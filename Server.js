@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const PORT = 8123
+const cron = require('node-cron') // SCHEDULER
 require("dotenv").config()
 
 const cors = require("cors")
@@ -8,6 +9,16 @@ app.use(cors({origin:'https://alicetoyou.vercel.app'}))
 // app.use(cors({origin:'http://localhost:3000'}))
 
 app.use(express.json())
+
+// MAKING SCHEDULED TASK TO PROTECT SERVER FROM SLEEPING--------------------------
+
+cron.schedule('*/14 * * * *', ()=>{
+  fetch(process.env.SERVER_AWAKE_URL, {method: 'POST'}).then((r1)=>{
+    console.log("server awake")
+  })
+})
+
+// ------------------------------------------------------------------
 
 app.post('/ai', async(req, res) => {
   // const {prmpt}=req.body
@@ -19,6 +30,13 @@ app.post('/ai', async(req, res) => {
   res.send(ansr)
   // res.send()
 })
+
+app.post('/wakeupserver', async(req, res)=>{
+  res.send({message: "wake up to reality"})
+  // res.send("wake up to reality")
+  console.log("Waking server")
+})
+
 
 
 
